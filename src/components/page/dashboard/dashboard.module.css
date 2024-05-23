@@ -1,0 +1,29 @@
+.filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.cardWrapper {
+    display: flex;
+    justify-content: left;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.card {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    background: #ffffff;
+}
+
+.rating {
+    margin-top: 24px;
+}
+
+.pagination {
+    margin-top: 24px;
+}
