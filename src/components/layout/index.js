@@ -1,57 +1,56 @@
-import React, {useEffect} from 'react';
-import {Layout, notification, theme, Typography} from "antd";
-import {observer} from "mobx-react-lite";
+import React, { useEffect } from "react";
+import { Layout, notification, theme, Typography } from "antd";
+import { observer } from "mobx-react-lite";
 import MovesStore from "../../stores/movesStore";
 import Content from "./content";
 import Navigation from "./navigation";
-import {Outlet} from "react-router-dom";
-
-const { Header, Footer } = Layout;
-const {Title} = Typography;
+import { Outlet } from "react-router-dom";
 
 const LayoutWrapper = observer(() => {
-    const {token: { colorBgContainer }} = theme.useToken();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
-    useEffect(() => {
-        !MovesStore.moves.length && MovesStore.setCurrentPage(1)
-        !MovesStore.genres.length && MovesStore.loadGenres();
-    }, []);
+  const { Header, Footer } = Layout;
+  const { Title } = Typography;
 
-    const [api, contextHolder] = notification.useNotification();
+  useEffect(() => {
+    !MovesStore.moves.length && MovesStore.setCurrentPage(1);
+    !MovesStore.genres.length && MovesStore.loadGenres();
+  }, []);
 
-    useEffect(() => {
-            const {errorContext} = MovesStore;
+  const [api, contextHolder] = notification.useNotification();
 
-            if (errorContext.state) {
-                api[errorContext.type]({
-                    message: errorContext.message,
-                    description: errorContext.description
-                })
+  useEffect(() => {
+    const { errorContext } = MovesStore;
 
-                setTimeout(() => MovesStore.resetErrorContext(), 5000)
-            }
-        }, [api, MovesStore.errorContext])
+    if (errorContext.state) {
+      api[errorContext.type]({
+        message: errorContext.message,
+        description: errorContext.description,
+      });
 
-        return (
-        <React.Fragment>
-            {
-                contextHolder
-            }
-            <Layout>
-                <Navigation />
-                <Layout>
-                    <Header style={{background: colorBgContainer}}>
-                        <Title level={3}>{'Поиск популярных фильмов'}</Title>
-                    </Header>
-                    <Content>
-                        <Outlet />
-                    </Content>
-                    <Footer>Footer</Footer>
-                </Layout>
-            </Layout>
-        </React.Fragment>
-    );
-}
-);
+      setTimeout(() => MovesStore.resetErrorContext(), 5000);
+    }
+  }, [api, MovesStore.errorContext]);
+
+  return (
+    <React.Fragment>
+      {contextHolder}
+      <Layout>
+        <Navigation />
+        <Layout>
+          <Header style={{ background: colorBgContainer }}>
+            <Title level={3}>{"Поиск популярных фильмов"}</Title>
+          </Header>
+          <Content>
+            <Outlet />
+          </Content>
+          <Footer>Footer</Footer>
+        </Layout>
+      </Layout>
+    </React.Fragment>
+  );
+});
 
 export default LayoutWrapper;

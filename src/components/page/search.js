@@ -1,7 +1,11 @@
-import React from "react";
+import React from 'react';
 
 const Search = () => {
-  return <div>{"search"}</div>;
+    return (
+        <div>
+            {'search'}
+        </div>
+    );
 };
 
 export default Search;
